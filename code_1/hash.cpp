@@ -11,13 +11,11 @@ HashNode* HashTable::createNode(string key, HashNode* next)
     return nw;
 }
 
-//KIERAN
 HashTable::HashTable(int bsize)
 {
    
 }
 
-//KIERAN
 //function to calculate hash function
 unsigned int HashTable::hashFunction(string s)
 {
@@ -25,7 +23,6 @@ unsigned int HashTable::hashFunction(string s)
     return 0;
 }
 
-//KIERAN
 // TODO Complete this function
 //function to search
 HashNode* HashTable::searchItem(string key)
@@ -37,7 +34,6 @@ HashNode* HashTable::searchItem(string key)
     
 }
 
-//ELIJAH
 //TODO Complete this function
 //function to insert
 bool HashTable::insertItem(string key, int cNum)
@@ -61,8 +57,7 @@ bool HashTable::insertItem(string key, int cNum)
 4|| difficult(3,)-->fun(2,)-->computer(0,)
 
 */
-//ELIJAH
 void HashTable::printTable()
 {
 
- }
+}
