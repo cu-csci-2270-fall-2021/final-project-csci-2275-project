@@ -48,12 +48,26 @@ HashNode* HashTable::searchItem(string key)
 //function to insert
 bool HashTable::insertItem(string key, int cNum)
 {
-    
-    //TODO
+    int index = hashFunction(key);
+    HashNode *newNode = new HashNode;
+    newNode->key = key;
+    newNode->commitNums.push_back(cNum);
+    if(table[index] == NULL){
+        table[index] = newNode;
+        return true;
+    } else {
+        insertLL(table[index], newNode);
+    }
     return false;
 }
 
-
+void insertLL(HashNode* node, HashNode* newNode){
+    HashNode* crawler = node;
+    while(crawler->next != NULL){
+        crawler = crawler->next;
+    }
+    crawler->next = newNode;
+}
 // function to display hash table //
 /* assume the table size is 5. For each bucket it will show the 
 ** the string key and the commit number (separated by comma) within parenthesis
@@ -70,5 +84,21 @@ bool HashTable::insertItem(string key, int cNum)
 //ELIJAH
 void HashTable::printTable()
 {
+    for(int i=0; i<tableSize; i++){
+        if(table[i] != NULL){
+            printLL(table[i]);
+        }
+    }
+ }
 
+ void printLL(HashNode* head){
+     HashNode* crawler = head;
+     while(crawler != NULL){
+         cout << "key: " << crawler->key << "commit nums: ";
+         for(int j=0; j<crawler->commitNums.capacity(); j++){
+             cout << crawler->commitNums[j] << " ";
+         }
+         cout << endl;
+         crawler = crawler->next;
+     }
  }
