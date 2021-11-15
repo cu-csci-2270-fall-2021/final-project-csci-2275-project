@@ -32,7 +32,20 @@ void MiniGit::add(string fileName) {
 
 //KIERAN
 void MiniGit::rm(string fileName) {
-    
+    BranchNode* temp = commitHead;
+    while(temp->next != NULL){
+        temp = temp->next;
+    }
+    FileNode* sll = temp->fileHead;
+    FileNode* prev = sll;
+    while(sll->name != fileName && sll->next != NULL){
+        prev = sll;
+        sll = sll->next;
+    }
+    if(sll->next != NULL){
+        prev->next = sll->next;
+        delete sll;
+    }
 }
 
 
