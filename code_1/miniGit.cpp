@@ -57,7 +57,11 @@ void MiniGit::printSearchTable()
 //KIERAN
 void MiniGit::search(string key)
 {
-
+    HashNode* arr = ht[ht->hashFunction(key)]->*table;
+    while(arr->next != NULL){
+        cout << arr->commitId << endl;
+        arr = arr->next;
+    }
 }
 
 //KIERAN
