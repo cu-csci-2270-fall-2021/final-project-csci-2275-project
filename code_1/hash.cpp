@@ -43,6 +43,14 @@ HashNode* HashTable::searchItem(string key)
    return temp;
 }
 
+
+void insertLL(HashNode* node, HashNode* newNode){
+    HashNode* crawler = node;
+    while(crawler->next != NULL){
+        crawler = crawler->next;
+    }
+    crawler->next = newNode;
+}
 //ELIJAH
 //TODO Complete this function
 //function to insert
@@ -61,13 +69,7 @@ bool HashTable::insertItem(string key, int cNum)
     return false;
 }
 
-void insertLL(HashNode* node, HashNode* newNode){
-    HashNode* crawler = node;
-    while(crawler->next != NULL){
-        crawler = crawler->next;
-    }
-    crawler->next = newNode;
-}
+
 // function to display hash table //
 /* assume the table size is 5. For each bucket it will show the 
 ** the string key and the commit number (separated by comma) within parenthesis
@@ -81,15 +83,7 @@ void insertLL(HashNode* node, HashNode* newNode){
 4|| difficult(3,)-->fun(2,)-->computer(0,)
 
 */
-//ELIJAH
-void HashTable::printTable()
-{
-    for(int i=0; i<tableSize; i++){
-        if(table[i] != NULL){
-            printLL(table[i]);
-        }
-    }
- }
+
 
  void printLL(HashNode* head){
      HashNode* crawler = head;
@@ -102,3 +96,13 @@ void HashTable::printTable()
          crawler = crawler->next;
      }
  }
+//ELIJAH
+void HashTable::printTable()
+{
+    for(int i=0; i<tableSize; i++){
+        if(table[i] != NULL){
+            printLL(table[i]);
+        }
+    }
+ }
+
