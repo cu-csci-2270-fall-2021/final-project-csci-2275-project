@@ -36,11 +36,11 @@ unsigned int HashTable::hashFunction(string s)
 //function to search
 HashNode* HashTable::searchItem(string key)
 {
-   
-
-    //TODO
-    return NULL;
-    
+   HashNode* temp = table[hashFunction(key)];
+   while(temp->key != key && temp != NULL){
+       temp = temp->next;
+   }
+   return temp;
 }
 
 //ELIJAH
