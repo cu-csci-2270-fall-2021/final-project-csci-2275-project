@@ -14,15 +14,23 @@ HashNode* HashTable::createNode(string key, HashNode* next)
 //KIERAN
 HashTable::HashTable(int bsize)
 {
-   
+    table = 
+   for(int i = 0; i<bsize; i++){
+
+   }
 }
 
 //KIERAN
 //function to calculate hash function
 unsigned int HashTable::hashFunction(string s)
 {
-    
-    return 0;
+    int sum = 0;
+    int index = 0;
+    for(int i=0; i < s.length(); i++)
+    {
+        sum += s[i];
+    }
+    return sum % tableSize;
 }
 
 //KIERAN
