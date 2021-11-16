@@ -14,8 +14,10 @@ HashNode* HashTable::createNode(string key, HashNode* next)
 //KIERAN
 HashTable::HashTable(int bsize)
 {
-   HashNode* array [bsize];
-   table = array;
+   table = new HashNode* [bsize];
+   for(int i = 0; i<bsize; i++){
+       table[i] = NULL;
+   }
 }
 
 //KIERAN
