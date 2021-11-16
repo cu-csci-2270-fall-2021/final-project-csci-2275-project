@@ -57,7 +57,7 @@ void MiniGit::printSearchTable()
 //KIERAN
 void MiniGit::search(string key)
 {
-    vector<int> arr = (ht[ht->hashFunction(key)])->commitNums;
+    vector<int> arr = ht->searchItem(key)->commitNums;
     BranchNode* temp = commitHead;
     for(int i = 0; i<arr.size(); i++){
         cout << "Commit ID: " << temp->commitID << endl;
@@ -70,7 +70,7 @@ string MiniGit::commit(string msg) {
         while(temp->next != NULL){
             for(int i = 0; i<.minigit.size(); i++){
                 if(temp->version = .minigit[i]){
-
+                    
                 }
             }
         }
