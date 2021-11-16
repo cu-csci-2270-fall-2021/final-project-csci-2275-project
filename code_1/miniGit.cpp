@@ -57,15 +57,23 @@ void MiniGit::printSearchTable()
 //KIERAN
 void MiniGit::search(string key)
 {
-    HashNode* arr = ht[ht->hashFunction(key)]->*table;
-    while(arr->next != NULL){
-        cout << arr->commitId << endl;
-        arr = arr->next;
+    vector<int> arr = (ht[ht->hashFunction(key)])->commitNums;
+    BranchNode* temp = commitHead;
+    for(int i = 0; i<arr.size(); i++){
+        cout << "Commit ID: " << temp->commitID << endl;
     }
 }
 
 //KIERAN
 string MiniGit::commit(string msg) {
+    FileNode* temp = commitHead->fileHead;
+        while(temp->next != NULL){
+            for(int i = 0; i<.minigit.size(); i++){
+                if(temp->version = .minigit[i]){
+
+                }
+            }
+        }
     return " "; //should return the commitID of the commited DLL node
 }
 
