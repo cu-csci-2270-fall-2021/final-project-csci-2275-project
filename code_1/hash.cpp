@@ -42,8 +42,6 @@ HashNode* HashTable::searchItem(string key)
    return temp;
 }
 
-<<<<<<< HEAD
-=======
 
 void insertLL(HashNode* node, HashNode* newNode){
     HashNode* crawler = node;
@@ -53,7 +51,6 @@ void insertLL(HashNode* node, HashNode* newNode){
     crawler->next = newNode;
 }
 //ELIJAH
->>>>>>> refs/remotes/origin/master
 //TODO Complete this function
 //function to insert
 bool HashTable::insertItem(string key, int cNum)
@@ -85,12 +82,6 @@ bool HashTable::insertItem(string key, int cNum)
 4|| difficult(3,)-->fun(2,)-->computer(0,)
 
 */
-<<<<<<< HEAD
-void HashTable::printTable()
-{
-
-}
-=======
 
 
  void printLL(HashNode* head){
@@ -114,4 +105,3 @@ void HashTable::printTable()
     }
  }
 
->>>>>>> refs/remotes/origin/master

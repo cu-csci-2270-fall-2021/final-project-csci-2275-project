@@ -22,12 +22,28 @@ MiniGit::~MiniGit() {
 
 //ELIJAH
 void MiniGit::init(int hashtablesize) {
-   
+   ht = new HashTable(hashtablesize);
+   commitHead = new BranchNode;
 }
 
 //ELIJAH
 void MiniGit::add(string fileName) {
-   
+    BranchNode* crawler = commitHead;
+    while(crawler->next != NULL){
+        crawler = crawler->next;
+    }
+    FileNode* lastFile = crawler->fileHead;
+    FileNode* newNode = new FileNode;
+    newNode->name = fileName;
+    if(lastFile == NULL){
+        crawler->fileHead = newNode;
+    }
+    while(lastFile->next != NULL){
+        lastFile = lastFile->next;
+    }
+    lastFile->next = newNode;
+
+    //implement file creation
 }
 
 //KIERAN
