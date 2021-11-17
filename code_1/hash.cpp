@@ -13,33 +13,61 @@ HashNode* HashTable::createNode(string key, HashNode* next)
 
 HashTable::HashTable(int bsize)
 {
-   
+   table = new HashNode* [bsize];
+   for(int i = 0; i<bsize; i++){
+       table[i] = NULL;
+   }
 }
 
 //function to calculate hash function
 unsigned int HashTable::hashFunction(string s)
 {
-    
-    return 0;
+    int sum = 0;
+    int index = 0;
+    for(int i=0; i < s.length(); i++)
+    {
+        sum += s[i];
+    }
+    return sum % tableSize;
 }
 
 // TODO Complete this function
 //function to search
 HashNode* HashTable::searchItem(string key)
 {
-   
-
-    //TODO
-    return NULL;
-    
+   HashNode* temp = table[hashFunction(key)];
+   while(temp->key != key && temp != NULL){
+       temp = temp->next;
+   }
+   return temp;
 }
 
+<<<<<<< HEAD
+=======
+
+void insertLL(HashNode* node, HashNode* newNode){
+    HashNode* crawler = node;
+    while(crawler->next != NULL){
+        crawler = crawler->next;
+    }
+    crawler->next = newNode;
+}
+//ELIJAH
+>>>>>>> refs/remotes/origin/master
 //TODO Complete this function
 //function to insert
 bool HashTable::insertItem(string key, int cNum)
 {
-    
-    //TODO
+    int index = hashFunction(key);
+    HashNode *newNode = new HashNode;
+    newNode->key = key;
+    newNode->commitNums.push_back(cNum);
+    if(table[index] == NULL){
+        table[index] = newNode;
+        return true;
+    } else {
+        insertLL(table[index], newNode);
+    }
     return false;
 }
 
@@ -57,7 +85,33 @@ bool HashTable::insertItem(string key, int cNum)
 4|| difficult(3,)-->fun(2,)-->computer(0,)
 
 */
+<<<<<<< HEAD
 void HashTable::printTable()
 {
 
 }
+=======
+
+
+ void printLL(HashNode* head){
+     HashNode* crawler = head;
+     while(crawler != NULL){
+         cout << "key: " << crawler->key << "commit nums: ";
+         for(int j=0; j<crawler->commitNums.capacity(); j++){
+             cout << crawler->commitNums[j] << " ";
+         }
+         cout << endl;
+         crawler = crawler->next;
+     }
+ }
+//ELIJAH
+void HashTable::printTable()
+{
+    for(int i=0; i<tableSize; i++){
+        if(table[i] != NULL){
+            printLL(table[i]);
+        }
+    }
+ }
+
+>>>>>>> refs/remotes/origin/master
