@@ -85,14 +85,38 @@ void MiniGit::search(string key)
 
 //KIERAN
 string MiniGit::commit(string msg) {
-    FileNode* temp = commitHead->fileHead;
-        while(temp->next != NULL){
-            for(int i = 0; i<.minigit.size(); i++){
-                if(temp->version = .minigit[i]){
-                    
+    BranchNode* curr = commitHead;
+    while(curr->next != NULL){
+        curr = curr->next;
+    }
+    curr->commitMessage = msg;
+    FileNode* file = curr->fileHead;
+    while(file->next != NULL){
+        string path = ".minigit";
+        vector<string> file_arr;
+        int i = 0;
+        for (const auto & entry : fs::directory_iterator(path)){
+            file_arr[i] = entry.path();
+            i++;
+        }
+        for(int i = 0; i<file_arr.size(); i++){
+            if(file->version == stoi(file_arr[i].substr(3,2))){
+                string gitFile = ".minigit/" + file->name;
+                if(file->name.compare(gitFile) != 0){
+                    string newFileName = file->name.substr(0,2) + "_" + to_string(file->version+1) + ".txt";
+                    ofstream outfile(newFileName);
+                    fs::copy_file(file->name, newFileName);
+                    file->version = file->version+1;
                 }
             }
+            else{
+                string newFileName = file->name.substr(0,2) + "_" + to_string(file->version+1) + ".txt";
+                ofstream outfile(newFileName);
+                fs::copy_file(file->name, newFileName);
+                file->version = file->version+1;
+            }
         }
+    }
     return " "; //should return the commitID of the commited DLL node
 }
 
