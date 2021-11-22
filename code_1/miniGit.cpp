@@ -117,7 +117,31 @@ string MiniGit::commit(string msg) {
             }
         }
     }
-    return " "; //should return the commitID of the commited DLL node
+    for(int i = 0; i<msg.size(); i++){
+        if(msg.at(i) == ' ' && i != 0){
+            ht->insertItem(msg.substr(0,i-1), curr->commitID);
+        }
+    }
+    BranchNode * newN = new BranchNode();
+    newN->commitID = curr->commitID+1;
+    newN->commitMessage = "";
+    newN->next = NULL;
+    newN->previous = curr;
+    curr->next = newN;
+    newN->fileHead = Clone(curr->fileHead);
+    commits++;
+    return curr->commitID + " "; //should return the commitID of the commited DLL node
+}
+
+FileNode* Clone(FileNode* list){
+    if(list == NULL){
+        return list;
+    }
+    FileNode* temp = new FileNode();
+    temp->name = list->name;
+    temp->version = list->version;
+    temp->next = Clone(list->next);
+    return temp;
 }
 
 //ELIJAH
