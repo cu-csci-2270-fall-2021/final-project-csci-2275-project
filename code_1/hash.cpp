@@ -13,6 +13,7 @@ HashNode* HashTable::createNode(string key, HashNode* next)
 
 HashTable::HashTable(int bsize)
 {
+    tableSize = bsize;
    table = new HashNode* [bsize];
    for(int i = 0; i<bsize; i++){
        table[i] = NULL;
@@ -24,11 +25,12 @@ unsigned int HashTable::hashFunction(string s)
 {
     int sum = 0;
     int index = 0;
-    for(int i=0; i < s.length(); i++)
+    for(int i=0; i < (int)(s.length()); i++)
     {
         sum += s[i];
     }
-    return sum % tableSize;
+    index = (int)(sum % tableSize);
+    return index;
 }
 
 // TODO Complete this function
@@ -84,24 +86,43 @@ bool HashTable::insertItem(string key, int cNum)
 */
 
 
- void printLL(HashNode* head){
-     HashNode* crawler = head;
-     while(crawler != NULL){
-         cout << "key: " << crawler->key << "commit nums: ";
-         for(int j=0; j<crawler->commitNums.capacity(); j++){
-             cout << crawler->commitNums[j] << " ";
-         }
-         cout << endl;
-         crawler = crawler->next;
-     }
- }
+//  void printLL(HashNode* head){
+//      HashNode* crawler = head;
+//      while(crawler != NULL){
+//          cout << "key: " << crawler->key << "commit nums: ";
+//          for(int j=0; j<(int)(crawler->commitNums.capacity()); j++){
+//              cout << crawler->commitNums[j] << " ";
+//          }
+//          cout << endl;
+//          crawler = crawler->next;
+//      }
+//  }
 //ELIJAH
 void HashTable::printTable()
 {
-    for(int i=0; i<tableSize; i++){
-        if(table[i] != NULL){
-            printLL(table[i]);
+    // for(int i=0; i<tableSize; i++){
+    //     if(table[i] != NULL){
+    //         printLL(table[i]);
+    //     }
+    // }
+    for (int i = 0; i < tableSize; i++) {
+        cout << i <<"|| ";
+        HashNode* temp = table[i];
+        while(temp){
+            cout << temp->key;
+            if(temp->commitNums.size()>0){
+                cout << "(";
+                for(int i = 0; i<(int)(temp->commitNums.size()); i++){
+                    cout << temp->commitNums[i] << ",";
+                }
+                cout << ")";
+            }
+            if(temp->next != NULL){
+                cout << "-->";
+            }
+            temp = temp->next;
         }
+        cout << endl;
     }
  }
 
