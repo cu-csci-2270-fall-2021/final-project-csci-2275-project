@@ -78,7 +78,7 @@ void MiniGit::search(string key)
 {
     vector<int> arr = ht->searchItem(key)->commitNums;
     BranchNode* temp = commitHead;
-    for(int i = 0; i<arr.size(); i++){
+    for(int i = 0; i<(int)(arr.size()); i++){
         cout << "Commit ID: " << temp->commitID << endl;
     }
 }
@@ -99,7 +99,7 @@ string MiniGit::commit(string msg) {
             file_arr[i] = entry.path();
             i++;
         }
-        for(int i = 0; i<file_arr.size(); i++){
+        for(int i = 0; i<(int)(file_arr.size()); i++){
             if(file->version == stoi(file_arr[i].substr(3,2))){
                 string gitFile = ".minigit/" + file->name;
                 if(file->name.compare(gitFile) != 0){
@@ -117,7 +117,7 @@ string MiniGit::commit(string msg) {
             }
         }
     }
-    for(int i = 0; i<msg.size(); i++){
+    for(int i = 0; i<(int)(msg.size()); i++){
         if(msg.at(i) == ' ' && i != 0){
             ht->insertItem(msg.substr(0,i-1), curr->commitID);
         }
@@ -128,19 +128,19 @@ string MiniGit::commit(string msg) {
     newN->next = NULL;
     newN->previous = curr;
     curr->next = newN;
-    newN->fileHead = Clone(curr->fileHead);
+    newN->fileHead = Duplicate(curr->fileHead);
     commits++;
     return curr->commitID + " "; //should return the commitID of the commited DLL node
 }
 
-FileNode* Clone(FileNode* list){
+FileNode* MiniGit::Duplicate(FileNode* list){
     if(list == NULL){
         return list;
     }
     FileNode* temp = new FileNode();
     temp->name = list->name;
     temp->version = list->version;
-    temp->next = Clone(list->next);
+    temp->next = Duplicate(list->next);
     return temp;
 }
 
