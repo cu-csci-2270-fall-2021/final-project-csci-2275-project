@@ -51,12 +51,7 @@ void MiniGit::add(string fileName) {
         } else lastFile->next = newNode;
     }
     label:
-    string newFileName = fileName;
-    if(lastFile->version < 10){
-        newFileName += "0";
-    }
-    newFileName += to_string(lastFile->version);
-    fs::copy_file(fileName,  ".minigit/" + newFileName);
+    return;
 }
 
 //KIERAN
