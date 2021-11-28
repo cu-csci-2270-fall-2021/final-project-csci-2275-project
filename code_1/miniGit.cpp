@@ -37,6 +37,7 @@ void MiniGit::add(string fileName) {
     newNode->name = fileName;
     if(lastFile == NULL){
         crawler->fileHead = newNode;
+        lastFile = crawler->fileHead;
     }
     while(lastFile->next != NULL){
         lastFile = lastFile->next;
@@ -44,8 +45,7 @@ void MiniGit::add(string fileName) {
     lastFile->next = newNode;
 
     string newFileName = fileName;
-    newFileName += crawler->commitID;
-    newFileName += ".txt";
+    newFileName += to_string(lastFile->version);
     fs::copy_file(fileName,  ".minigit/" + newFileName);
 }
 
