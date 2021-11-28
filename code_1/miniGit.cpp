@@ -38,12 +38,19 @@ void MiniGit::add(string fileName) {
     if(lastFile == NULL){
         crawler->fileHead = newNode;
         lastFile = crawler->fileHead;
+    } else {
+        while(lastFile->next != NULL){
+            if(lastFile->name == fileName){
+                lastFile->version++;
+                goto label;
+            }
+            lastFile = lastFile->next;
+        }
+        if(lastFile->name == fileName){
+            lastFile->version++;
+        } else lastFile->next = newNode;
     }
-    while(lastFile->next != NULL){
-        lastFile = lastFile->next;
-    }
-    lastFile->next = newNode;
-
+    label:
     string newFileName = fileName;
     if(lastFile->version < 10){
         newFileName += "0";
