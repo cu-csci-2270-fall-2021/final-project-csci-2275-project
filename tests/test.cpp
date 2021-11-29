@@ -108,7 +108,7 @@ TEST_F(test_x, TestSearch){
     string commits[] = {"computer", "science", "fun", "difficult", "science"};
     int tabSize = 5;
     result = test_search(commits, len, tabSize, "fun");
-    expected = "0|| science(1,4,)\n1|| \n2|| \n3|| \n4|| difficult(3,)-->fun(2,)-->computer(0,)\n fun";
+    expected = "0|| science(1,4,)\n1|| \n2|| \n3|| \n4|| computer(0,)-->fun(2,)-->difficult(3,)\nfun";
     ASSERT_EQ(expected, result);
     add_points_to_grade(6);
 }

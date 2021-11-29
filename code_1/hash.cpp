@@ -55,10 +55,18 @@ void insertLL(HashNode* node, HashNode* newNode){
 //ELIJAH
 //TODO Complete this function
 //function to insert
+
+
+
 bool HashTable::insertItem(string key, int cNum)
-{
+{   
     int index = hashFunction(key);
+    if(table[index] != NULL && table[index]->key == key){
+        table[index]->commitNums.push_back(cNum);
+        return true;
+    }
     HashNode *newNode = new HashNode;
+    newNode->next = NULL;
     newNode->key = key;
     newNode->commitNums.push_back(cNum);
     if(table[index] == NULL){
@@ -66,6 +74,7 @@ bool HashTable::insertItem(string key, int cNum)
         return true;
     } else {
         insertLL(table[index], newNode);
+        return true;
     }
     return false;
 }
