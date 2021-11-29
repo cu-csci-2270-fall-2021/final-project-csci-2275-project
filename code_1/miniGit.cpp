@@ -77,6 +77,10 @@ void MiniGit::rm(string fileName) {
         prev->next = sll->next;
         delete sll;
     }
+    else{
+        delete sll;
+        temp->fileHead = NULL;
+    }
 }
 
 
