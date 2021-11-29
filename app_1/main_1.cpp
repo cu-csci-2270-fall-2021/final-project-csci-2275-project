@@ -2,7 +2,7 @@
 #include "../code_1/miniGit.hpp"
 #include <filesystem>
 using namespace std;
-
+namespace fs = std::filesystem;
 /*
  * Purpose; displays a menu with options
  */
@@ -36,10 +36,31 @@ int main(int argc, char* argv[]) {
             repo->init(5);
         }
         if(input == "2"){
+            int count = 0;
             cout << "Enter the filename to be added: ";
             string filename = "";
             cin >> filename;
+            bool filePres = false;
+            while(!filePres){
+                if(count != 0){
+                    cout << "File not in current directory, try again: ";
+                    cin >> filename;
+                }
+                count++;
+                filePres = true;
+                string path = "../test";
+                for(const auto & entry : fs::directory_iterator(path)){
+                    string filePath = entry.path();
+                    filePath = filePath.substr(path.length()+1);
+                    for(int i = 0; i<int(filename.length()); i++){
+                        if(int(filePath[i]) != int(filename[i])){
+                            filePres = false;
+                        }
+                    }
+                }
+            }
             repo->add(filename);
+            repo->printLastSLL();
         }
         if(input == "3"){
             
