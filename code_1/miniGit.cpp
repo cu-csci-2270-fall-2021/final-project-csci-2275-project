@@ -24,6 +24,11 @@ MiniGit::~MiniGit() {
 void MiniGit::init(int hashtablesize) {
    ht = new HashTable(hashtablesize);
    commitHead = new BranchNode;
+   commitHead->commitID = 0;
+   commitHead->commitMessage = "";
+   commitHead->fileHead = NULL;
+   commitHead->previous = NULL;
+   commitHead->next = NULL;
 }
 
 //ELIJAH
@@ -34,10 +39,12 @@ void MiniGit::add(string fileName) {
     }
     FileNode* lastFile = crawler->fileHead;
     FileNode* newNode = new FileNode;
-    newNode->name = fileName;
+    int pos = fileName.find(".");
+    newNode->name = fileName.substr(0, pos) + "_00" + ".txt";
+    newNode->version = 0;
+    newNode->next = NULL;
     if(lastFile == NULL){
         crawler->fileHead = newNode;
-        lastFile = crawler->fileHead;
     } else {
         while(lastFile->next != NULL){
             if(lastFile->name == fileName){
@@ -86,6 +93,23 @@ void MiniGit::search(string key)
     cout << "Commit numbers for " << key << ": ";
     for(int i = 0; i<(int)(arr.size()); i++){
         cout << temp->commitID << ",";
+    }
+}
+
+//JUST FOR TESTING
+//REMOVE BEFORE FINAL COMMIT
+void MiniGit::printLastSLL(){
+    BranchNode* temp = commitHead;
+    while(temp->next != NULL){
+        temp = temp->next;
+    }
+    FileNode* SLL = temp->fileHead;
+    if(SLL == NULL){
+        cout << "NULL" << endl;
+    }
+    while(SLL != NULL){
+        cout << SLL->name << endl;
+        SLL = SLL->next;
     }
 }
 
