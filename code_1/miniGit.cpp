@@ -63,23 +63,31 @@ void MiniGit::add(string fileName) {
 
 //KIERAN
 void MiniGit::rm(string fileName) {
-    BranchNode* temp = commitHead;
-    while(temp->next != NULL){
-        temp = temp->next;
+    BranchNode* dll = commitHead;
+    while(dll->next != NULL){
+        dll = dll->next;
     }
-    FileNode* sll = temp->fileHead;
-    FileNode* prev = sll;
-    while(sll->name != fileName && sll->next != NULL){
-        prev = sll;
-        sll = sll->next;
-    }
-    if(sll->next != NULL){
-        prev->next = sll->next;
-        delete sll;
+    FileNode* temp = dll->fileHead;
+    FileNode* prev = NULL;
+    int pos = temp->name.find("_");
+    string tName = temp->name.substr(0,pos) + ".txt";
+    if (temp != NULL && tName == fileName){
+        dll->fileHead = temp->next; 
+        delete temp;            
+        return;
     }
     else{
-        delete sll;
-        temp->fileHead = NULL;
+        while (temp != NULL && tName != fileName){
+            prev = temp;
+            temp = temp->next;
+            pos = temp->name.find("_");
+            tName = temp->name.substr(0,pos) + ".txt";
+        }
+        if (temp == NULL){
+            return;
+        }
+        prev->next = temp->next;
+        delete temp;
     }
 }
 
