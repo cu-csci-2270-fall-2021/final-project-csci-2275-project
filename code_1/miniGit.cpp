@@ -47,14 +47,20 @@ void MiniGit::add(string fileName) {
         crawler->fileHead = newNode;
     } else {
         while(lastFile->next != NULL){
-            if(lastFile->name == fileName){
+            pos = lastFile->name.find("_");
+            string lFileName = lastFile->name.substr(0,pos) + ".txt";
+            if(lFileName == fileName){
                 lastFile->version++;
+                cout << "File has already been added. Version number updated" << endl;
                 goto label;
             }
             lastFile = lastFile->next;
         }
-        if(lastFile->name == fileName){
+        pos = lastFile->name.find("_");
+        string lFileName = lastFile->name.substr(0,pos) + ".txt";
+        if(lFileName == fileName){
             lastFile->version++;
+            cout << "File has already been added. Version number updated" << endl;
         } else lastFile->next = newNode;
     }
     label:
