@@ -73,7 +73,9 @@ bool HashTable::insertItem(string key, int cNum)
         table[index] = newNode;
         return true;
     } else {
-        insertLL(table[index], newNode);
+        newNode->next = table[index];
+        table[index] = newNode;
+        //insertLL(table[index], newNode);
         return true;
     }
     return false;

@@ -87,7 +87,7 @@ TEST_F(test_x, TestInsert){
 	len = 7;
 	tabSize = 7;
 	result = test_insert(commits1, len, tabSize);
-	expected = "0|| test(2,)\n1|| error(6,)\n2|| \n3|| work(5,)\n4|| version(3,)-->initial(1,)\n5|| run(0,) \n6|| brown(4,)";
+	expected = "0|| test(2,)\n1|| error(6,)\n2|| \n3|| work(5,)\n4|| version(3,)-->initial(1,)\n5|| run(0,)\n6|| brown(4,)\n";
 	ASSERT_EQ(expected, result);
     add_points_to_grade(6);
 
@@ -95,7 +95,7 @@ TEST_F(test_x, TestInsert){
 	len = 3;
 	tabSize = 3;
 	result = test_insert(commits2, len, tabSize);
-	expected = "0|| ccc(2,)-->bbb(1,)-->aaa(0,)\n1|| \n2|| ";
+	expected = "0|| ccc(2,)-->bbb(1,)-->aaa(0,)\n1|| \n2|| \n";
 	ASSERT_EQ(expected, result);
     add_points_to_grade(6);
 }
@@ -108,7 +108,7 @@ TEST_F(test_x, TestSearch){
     string commits[] = {"computer", "science", "fun", "difficult", "science"};
     int tabSize = 5;
     result = test_search(commits, len, tabSize, "fun");
-    expected = "0|| science(1,4,)\n1|| \n2|| \n3|| \n4|| computer(0,)-->fun(2,)-->difficult(3,)\nfun";
+    expected = "0|| science(1,4,)\n1|| \n2|| \n3|| \n4|| difficult(3,)-->fun(2,)-->computer(0,)\nfun";
     ASSERT_EQ(expected, result);
     add_points_to_grade(6);
 }
