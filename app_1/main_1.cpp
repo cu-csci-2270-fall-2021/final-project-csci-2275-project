@@ -40,22 +40,19 @@ int main(int argc, char* argv[]) {
             cout << "Enter the filename to be added: ";
             string filename = "";
             cin >> filename;
-            bool filePres = false;
-            while(!filePres){
+            bool found = false;
+            while(!found){
                 if(count != 0){
                     cout << "File not in current directory, try again: ";
                     cin >> filename;
                 }
                 count++;
-                filePres = true;
-                string path = "../test";
+                string path = "/mnt/c/Users/bookn/Downloads/Code/CSCI-2275/final-project-csci-2275-project/test";
                 for(const auto & entry : fs::directory_iterator(path)){
                     string filePath = entry.path();
                     filePath = filePath.substr(path.length()+1);
-                    for(int i = 0; i<int(filename.length()); i++){
-                        if(int(filePath[i]) != int(filename[i])){
-                            filePres = false;
-                        }
+                    if(filename == filePath){
+                        found = true;
                     }
                 }
             }
@@ -63,7 +60,28 @@ int main(int argc, char* argv[]) {
             repo->printLastSLL();
         }
         if(input == "3"){
-            
+            int count = 0;
+            cout << "Enter the filename to be removed: ";
+            string filename = "";
+            cin >> filename;
+            bool found = false;
+            while(!found){
+                if(count != 0){
+                    cout << "File not in current directory, try again: ";
+                    cin >> filename;
+                }
+                count++;
+                string path = "/mnt/c/Users/bookn/Downloads/Code/CSCI-2275/final-project-csci-2275-project/test";
+                for(const auto & entry : fs::directory_iterator(path)){
+                    string filePath = entry.path();
+                    filePath = filePath.substr(path.length()+1);
+                     if(filename == filePath){
+                        found = true;
+                    }
+                }
+            }
+            repo->rm(filename);
+            repo->printLastSLL();
         }
         if(input == "4"){
             cout << "Enter unique commit message (at most 3 space separated words): ";
