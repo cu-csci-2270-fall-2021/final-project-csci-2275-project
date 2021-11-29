@@ -100,4 +100,17 @@ TEST_F(test_x, TestInsert){
     add_points_to_grade(6);
 }
 
+TEST_F(test_x, TestSearch){
+	string result;
+    string expected;
+    int len = 5;
+    
+    string commits[] = {"computer", "science", "fun", "difficult", "science"};
+    int tabSize = 5;
+    result = test_search(commits, len, tabSize, "fun");
+    expected = "0|| science(1,4,)\n1|| \n2|| \n3|| \n4|| difficult(3,)-->fun(2,)-->computer(0,)\n fun";
+    ASSERT_EQ(expected, result);
+    add_points_to_grade(6);
+}
+
 //TODO add more tests for insert. Design tests for search from hashTable.

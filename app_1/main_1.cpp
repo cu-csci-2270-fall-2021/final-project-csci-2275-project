@@ -47,7 +47,7 @@ int main(int argc, char* argv[]) {
                     cin >> filename;
                 }
                 count++;
-                string path = "/mnt/c/Users/bookn/Downloads/Code/CSCI-2275/final-project-csci-2275-project/test";
+                string path = "test";
                 for(const auto & entry : fs::directory_iterator(path)){
                     string filePath = entry.path();
                     filePath = filePath.substr(path.length()+1);
