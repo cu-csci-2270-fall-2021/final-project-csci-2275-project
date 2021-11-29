@@ -105,7 +105,7 @@ int main(int argc, char* argv[]) {
                     }
                 }
             }
-            cout << commitMsg << endl << "commit successful: " << repo->commit(commitMsg);
+            cout << commitMsg << endl << "commit successful: " << repo->commit(commitMsg) << endl;
             repo->printSearchTable();
         }
         if(input == "5"){
