@@ -75,7 +75,6 @@ bool HashTable::insertItem(string key, int cNum)
     } else {
         newNode->next = table[index];
         table[index] = newNode;
-        //insertLL(table[index], newNode);
         return true;
     }
     return false;
@@ -96,26 +95,9 @@ bool HashTable::insertItem(string key, int cNum)
 
 */
 
-
-//  void printLL(HashNode* head){
-//      HashNode* crawler = head;
-//      while(crawler != NULL){
-//          cout << "key: " << crawler->key << "commit nums: ";
-//          for(int j=0; j<(int)(crawler->commitNums.capacity()); j++){
-//              cout << crawler->commitNums[j] << " ";
-//          }
-//          cout << endl;
-//          crawler = crawler->next;
-//      }
-//  }
 //ELIJAH
 void HashTable::printTable()
 {
-    // for(int i=0; i<tableSize; i++){
-    //     if(table[i] != NULL){
-    //         printLL(table[i]);
-    //     }
-    // }
     for (int i = 0; i < tableSize; i++) {
         cout << i <<"|| ";
         HashNode* temp = table[i];
