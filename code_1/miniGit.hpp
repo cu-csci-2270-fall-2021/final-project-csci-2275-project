@@ -36,6 +36,7 @@ public:
     MiniGit();
     ~MiniGit();
     void printLastSLL();
+    void printDLL();
     void init(int hashtablesize);
     void add(string fileName);
     void rm(string fileName);
