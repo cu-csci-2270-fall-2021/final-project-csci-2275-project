@@ -19,7 +19,15 @@ MiniGit::~MiniGit() {
     // Any postprocessing that may be required
     BranchNode* crawler = commitHead;
     while(crawler != NULL){
-        
+        FileNode* node = crawler->fileHead;
+        while(node != NULL){
+            FileNode* temp = node;
+            node = node->next;
+            delete temp;
+        }
+        BranchNode* tempCrawl = crawler;
+        crawler = crawler->next;
+        delete tempCrawl;
     }
 }
 
@@ -268,6 +276,7 @@ void MiniGit::checkout(string commitID) {
                string fileLoc = ".minigit" + node->version;
                string fileDest = "test" + node->name;
                fs::copy_file(fileLoc, fileDest);
+               node = node->next;
            }
            return;
        }
