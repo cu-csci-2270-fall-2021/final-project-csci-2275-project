@@ -159,8 +159,9 @@ string MiniGit::commit(string msg) {
         string path = ".minigit";
         bool found = false;
         for (const auto & entry : fs::directory_iterator(path)){
-            int pos = entry.path().find("_");
-            string minigitFile = entry.path().substr(0,pos) + ".txt";
+            string entryPath = entry.path();
+            int pos = entryPath.find("_");
+            string minigitFile = entryPath.substr(0,pos) + ".txt";
             if(minigitFile == file->name){
                 found = true;
             }
@@ -168,7 +169,7 @@ string MiniGit::commit(string msg) {
         if(found){
             string gitFile = ".minigit/" + file->name;
             if(fs::path(file->name).compare(fs::path(gitFile)) != 0){
-                pos = file->name.find("_");
+                int pos = file->name.find("_");
                 string title = file->name.substr(0,pos);
                 string newFileName = "";
                 if(file->version+1<10){
