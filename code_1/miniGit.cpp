@@ -17,7 +17,10 @@ MiniGit::MiniGit() {
 //ELIJAH
 MiniGit::~MiniGit() {   
     // Any postprocessing that may be required
-
+    BranchNode* crawler = commitHead;
+    while(crawler != NULL){
+        
+    }
 }
 
 //ELIJAH
@@ -257,5 +260,18 @@ FileNode* MiniGit::Duplicate(FileNode* list){
 
 //ELIJAH
 void MiniGit::checkout(string commitID) {
-   
+   BranchNode* crawler = commitHead;
+   while(crawler != NULL){
+       if(crawler->commitID == stoi(commitID)){
+           FileNode* node = crawler->fileHead;
+           while(node != NULL){
+               string fileLoc = ".minigit" + node->version;
+               string fileDest = "test" + node->name;
+               fs::copy_file(fileLoc, fileDest);
+           }
+           return;
+       }
+       crawler = crawler->next;
+   }
+   cout << "version not found" << endl;
 }
