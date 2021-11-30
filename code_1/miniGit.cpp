@@ -17,18 +17,19 @@ MiniGit::MiniGit() {
 //ELIJAH
 MiniGit::~MiniGit() {   
     // Any postprocessing that may be required
-    BranchNode* crawler = commitHead;
-    while(crawler != NULL){
-        FileNode* node = crawler->fileHead;
-        while(node != NULL){
-            FileNode* temp = node;
-            node = node->next;
-            delete temp;
-        }
-        BranchNode* tempCrawl = crawler;
-        crawler = crawler->next;
-        delete tempCrawl;
-    }
+    // BranchNode* crawler = commitHead;
+    // while(crawler != NULL){
+    //     FileNode* node = crawler->fileHead;
+    //     while(node != NULL){
+    //         FileNode* temp = node;
+    //         node = node->next;
+    //         delete temp;
+    //     }
+    //     BranchNode* tempCrawl = crawler;
+    //     crawler = crawler->next;
+    //     delete tempCrawl;
+    // }
+    // fs::remove_all(".minigit");
 }
 
 //ELIJAH
@@ -167,16 +168,28 @@ string MiniGit::commit(string msg) {
     curr->commitMessage = msg;
     FileNode* file = curr->fileHead;
     while(file != NULL){
-        string path = ".minigit";
         bool found = false;
-        for (const auto & entry : fs::directory_iterator(path)){
-            string entryPath = entry.path();
-            int pos = entryPath.find("_");
-            string minigitFile = entryPath.substr(0,pos) + ".txt";
-            if(minigitFile == file->name){
-                found = true;
-            }
+        // for (const auto & entry : fs::directory_iterator(path)){
+        //     string entryPath = entry.path();
+        //     int pos = entryPath.find("_");
+        //     string minigitFile = entryPath.substr(0,pos) + ".txt";
+        //     if(minigitFile == file->name){
+        //         found = true;
+        //     }
+        // }
+        fs::current_path(fs::path(".minigit"));
+        int pos = file->name.find(".");
+        string fileName = "";
+        if(file->version>10){
+            fileName = file->name.substr(0,pos) + "_" + to_string(file->version) + ".txt";
         }
+        else{
+            fileName =file->name.substr(0,pos) + "_0" + to_string(file->version) + ".txt";
+        }
+        if(fs::exists(fileName)){
+            found = true;
+        }
+        fs::current_path(fs::path("../"));
         if(found){
             int pos = file->name.find(".");
             string gitFile = "";
@@ -187,7 +200,7 @@ string MiniGit::commit(string msg) {
                 gitFile = ".minigit/" + file->name.substr(0,pos) + "_0" + to_string(file->version) + ".txt";
             }
             if(fs::path(file->name).compare(fs::path(gitFile)) != 0){
-                int pos = file->name.find("_");
+                int pos = file->name.find(".");
                 string title = file->name.substr(0,pos);
                 string newFileName = "";
                 if(file->version+1<10){
@@ -196,16 +209,30 @@ string MiniGit::commit(string msg) {
                 else{
                     newFileName = title + "_" + to_string(file->version+1) + ".txt";
                 }
-                ofstream outfile(newFileName);
-                fs::copy_file(file->name, newFileName);
+                ifstream src (file->name);
+                ofstream dest(".minigit/" + newFileName);
+                string line;
+                while(getline(src, line)){
+                    dest << line << endl; 
+                }
+                src.close();
+                dest.close();
                 file->version = file->version+1;
             }
         }
         else{
-            string newFileName = file->name + "_00.txt";
-            ofstream outfile(newFileName);
-            fs::copy_file(file->name, newFileName);
+            int pos = file->name.find(".");
+            string newFileName = file->name.substr(0,pos) + "_00.txt";
+            ifstream src (file->name);
+            ofstream dest(".minigit/" + newFileName);
+            string line;
+            while(getline(src, line)){
+                dest << line << endl; 
+            }
+            src.close();
+            dest.close();
         }
+        file = file->next;
     }
     // while(file != NULL){
     //     string path = ".minigit";
