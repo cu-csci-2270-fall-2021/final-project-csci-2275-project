@@ -131,6 +131,22 @@ void MiniGit::printLastSLL(){
     }
 }
 
+//JUST FOR TESTING
+//REMOVE BEFORE FINAL COMMIT
+void MiniGit::printDLL(){
+    BranchNode* temp = commitHead;
+    while(temp != NULL){
+        cout << "CommitID: " << temp->commitID << " Commit msg: " << temp->commitMessage << " SLL: ";
+        FileNode* curr = temp->fileHead;
+        while(curr != NULL){
+            cout << curr->name << "-->";
+            curr = curr->next;
+        }
+        cout << endl;
+        temp = temp->next;
+    }
+}
+
 //KIERAN
 string MiniGit::commit(string msg) {
     BranchNode* curr = commitHead;
@@ -139,32 +155,78 @@ string MiniGit::commit(string msg) {
     }
     curr->commitMessage = msg;
     FileNode* file = curr->fileHead;
-    while(file->next != NULL){
+    while(file != NULL){
         string path = ".minigit";
-        vector<string> file_arr;
-        int i = 0;
+        bool found = false;
         for (const auto & entry : fs::directory_iterator(path)){
-            file_arr[i] = entry.path();
-            i++;
-        }
-        for(int i = 0; i<(int)(file_arr.size()); i++){
-            if(file->version == stoi(file_arr[i].substr(3,2))){
-                string gitFile = ".minigit/" + file->name;
-                if(file->name.compare(gitFile) != 0){
-                    string newFileName = file->name.substr(0,2) + "_" + to_string(file->version+1) + ".txt";
-                    ofstream outfile(newFileName);
-                    fs::copy_file(file->name, newFileName);
-                    file->version = file->version+1;
-                }
+            int pos = entry.path().find("_");
+            string minigitFile = entry.path().substr(0,pos) + ".txt";
+            if(minigitFile == file->name){
+                found = true;
             }
-            else{
-                string newFileName = file->name.substr(0,2) + "_" + to_string(file->version+1) + ".txt";
+        }
+        if(found){
+            string gitFile = ".minigit/" + file->name;
+            if(fs::path(file->name).compare(fs::path(gitFile)) != 0){
+                pos = file->name.find("_");
+                string title = file->name.substr(0,pos);
+                string newFileName = "";
+                if(file->version+1<10){
+                    newFileName = title + "_0" + to_string(file->version+1) + ".txt";
+                }
+                else{
+                    newFileName = title + "_" + to_string(file->version+1) + ".txt";
+                }
                 ofstream outfile(newFileName);
                 fs::copy_file(file->name, newFileName);
                 file->version = file->version+1;
             }
         }
     }
+    // while(file != NULL){
+    //     string path = ".minigit";
+    //     vector<string> file_arr;
+    //     int i = 0;
+    //     for (const auto & entry : fs::directory_iterator(path)){
+    //         file_arr[i] = entry.path();
+    //         i++;
+    //     }
+    //     for(int i = 0; i<(int)(file_arr.size()); i++){
+    //         int pos = file_arr[i].find("_");
+    //         string vName = file_arr[i].substr(pos, 2);
+    //         if(file->version == stoi(vName)){
+    //             string gitFile = ".minigit/" + file->name;
+    //             if(file->name.compare(gitFile) != 0){
+    //                 pos = file->name.find("_");
+    //                 string title = file->name.substr(0,pos);
+    //                 string newFileName = "";
+    //                 if(file->version+1<10){
+    //                     newFileName = title + "_0" + to_string(file->version+1) + ".txt";
+    //                 }
+    //                 else{
+    //                     newFileName = title + "_" + to_string(file->version+1) + ".txt";
+    //                 }
+    //                 ofstream outfile(newFileName);
+    //                 fs::copy_file(file->name, newFileName);
+    //                 file->version = file->version+1;
+    //             }
+    //         }
+    //         else{
+    //             pos = file->name.find("_");
+    //             string title = file->name.substr(0,pos);
+    //             string newFileName = "";
+    //             if(file->version+1<10){
+    //                 newFileName = title + "_0" + to_string(file->version+1) + ".txt";
+    //             }
+    //             else{
+    //                 newFileName = title + "_" + to_string(file->version+1) + ".txt";
+    //             }
+    //             ofstream outfile(newFileName);
+    //             fs::copy_file(file->name, newFileName);
+    //             file->version = file->version+1;
+    //         }
+    //     }
+    // }
     for(int i = 0; i<(int)(msg.size()); i++){
         if(msg.at(i) == ' ' && i != 0){
             ht->insertItem(msg.substr(0,i-1), curr->commitID);
