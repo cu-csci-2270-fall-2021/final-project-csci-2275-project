@@ -51,7 +51,7 @@ void MiniGit::add(string fileName) {
     FileNode* lastFile = crawler->fileHead;
     FileNode* newNode = new FileNode;
     int pos = fileName.find(".");
-    newNode->name = fileName.substr(0, pos) + "_00" + ".txt";
+    newNode->name = fileName.substr(0, pos) + ".txt";
     newNode->version = 0;
     newNode->next = NULL;
     if(lastFile == NULL){
@@ -86,7 +86,7 @@ void MiniGit::rm(string fileName) {
     }
     FileNode* temp = dll->fileHead;
     FileNode* prev = NULL;
-    int pos = temp->name.find("_");
+    int pos = temp->name.find(".");
     string tName = temp->name.substr(0,pos) + ".txt";
     if (temp != NULL && tName == fileName){
         dll->fileHead = temp->next; 
@@ -97,7 +97,7 @@ void MiniGit::rm(string fileName) {
         while (temp != NULL && tName != fileName){
             prev = temp;
             temp = temp->next;
-            pos = temp->name.find("_");
+            pos = temp->name.find(".");
             tName = temp->name.substr(0,pos) + ".txt";
         }
         if (temp == NULL){
@@ -178,7 +178,14 @@ string MiniGit::commit(string msg) {
             }
         }
         if(found){
-            string gitFile = ".minigit/" + file->name;
+            int pos = file->name.find(".");
+            string gitFile = "";
+            if(file->version>10){
+                gitFile = ".minigit/" + file->name.substr(0,pos) + "_" + to_string(file->version) + ".txt";
+            }
+            else{
+                gitFile = ".minigit/" + file->name.substr(0,pos) + "_0" + to_string(file->version) + ".txt";
+            }
             if(fs::path(file->name).compare(fs::path(gitFile)) != 0){
                 int pos = file->name.find("_");
                 string title = file->name.substr(0,pos);
@@ -193,6 +200,11 @@ string MiniGit::commit(string msg) {
                 fs::copy_file(file->name, newFileName);
                 file->version = file->version+1;
             }
+        }
+        else{
+            string newFileName = file->name + "_00.txt";
+            ofstream outfile(newFileName);
+            fs::copy_file(file->name, newFileName);
         }
     }
     // while(file != NULL){

@@ -14,10 +14,10 @@ HashNode* HashTable::createNode(string key, HashNode* next)
 HashTable::HashTable(int bsize)
 {
     tableSize = bsize;
-   table = new HashNode* [bsize];
-   for(int i = 0; i<bsize; i++){
-       table[i] = NULL;
-   }
+    table = new HashNode* [bsize];
+    for(int i = 0; i<bsize; i++){
+        table[i] = NULL;
+    }
 }
 
 //function to calculate hash function
