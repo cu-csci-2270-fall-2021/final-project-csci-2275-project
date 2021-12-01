@@ -55,21 +55,47 @@ HashNode* HashTable::searchItem(string key)
 
 bool HashTable::insertItem(string key, int cNum)
 {   
+    // int index = hashFunction(key);
+    // if(table[index] != NULL && table[index]->key == key){
+    //     table[index]->commitNums.push_back(cNum);
+    //     return true;
+    // }
+    // HashNode *newNode = new HashNode;
+    // newNode->next = NULL;
+    // newNode->key = key;
+    // newNode->commitNums.push_back(cNum);
+    // if(table[index] == NULL){
+    //     table[index] = newNode;
+    //     return true;
+    // } else {
+    //     newNode->next = table[index];
+    //     table[index] = newNode;
+    //     return true;
+    // }
+    // return false;
     int index = hashFunction(key);
-    if(table[index] != NULL && table[index]->key == key){
-        table[index]->commitNums.push_back(cNum);
+    HashNode* temp = table[index];
+    if(temp == NULL){
+        temp = new HashNode;
+        temp->key = key;
+        temp->next = NULL;
+        temp->commitNums.push_back(cNum);
+        table[index] = temp;
         return true;
     }
-    HashNode *newNode = new HashNode;
-    newNode->next = NULL;
-    newNode->key = key;
-    newNode->commitNums.push_back(cNum);
-    if(table[index] == NULL){
-        table[index] = newNode;
-        return true;
-    } else {
-        newNode->next = table[index];
-        table[index] = newNode;
+    else{
+        while(temp != NULL){
+            if(temp->key == key){
+                temp->commitNums.push_back(cNum);
+                return true;
+            }
+            temp = temp->next;
+        }
+        temp = new HashNode;
+        temp->key = key;
+        temp->next = table[index];
+        temp->commitNums.push_back(cNum);
+        table[index] = temp;
         return true;
     }
     return false;

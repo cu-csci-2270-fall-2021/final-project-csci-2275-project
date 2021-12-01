@@ -57,9 +57,11 @@ string test_search(string arr[], int len, int tabSize, string key)
         }
     }
     HashNode* searchItem = ht->searchItem(key);
-    ht->printTable();
+    //ht->printTable();
     if(searchItem != NULL){
-        cout << searchItem->key;
+        for(int i = 0; i<(int)(searchItem->commitNums.size()); i++){
+            cout << searchItem->commitNums[i] << ",";
+        }
     }
     string output = testing::internal::GetCapturedStdout();
     return output;

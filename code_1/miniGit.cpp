@@ -125,10 +125,9 @@ void MiniGit::search(string key)
         return;
     }
     vector<int> arr = searchNode->commitNums;
-    BranchNode* temp = commitHead;
     cout << "Commit numbers for " << key << ": ";
     for(int i = 0; i<(int)(arr.size()); i++){
-        cout << temp->commitID << ",";
+        cout << arr[i] << ",";
     }
 }
 
@@ -178,6 +177,7 @@ bool MiniGit::searchForCommitMSG(string msg){
 
 //KIERAN
 string MiniGit::commit(string msg) {
+    bool modified = false;
     BranchNode* curr = commitHead;
     while(curr->next != NULL){
         curr = curr->next;
@@ -247,6 +247,7 @@ string MiniGit::commit(string msg) {
                 else{
                     newFileName = title + "_" + to_string(file->version) + ".txt";
                 }
+                modified = true;
                 ifstream src (file->name);
                 ofstream dest(".minigit/" + newFileName);
                 string line;
@@ -272,6 +273,7 @@ string MiniGit::commit(string msg) {
         }
         else{
             int pos = file->name.find(".");
+            modified = true;
             string newFileName = file->name.substr(0,pos) + "_00.txt";
             ifstream src (file->name);
             ofstream dest(".minigit/" + newFileName);
@@ -319,8 +321,14 @@ string MiniGit::commit(string msg) {
     curr->next = newN;
     newN->fileHead = Duplicate(curr->fileHead);
     commits++;
-    cout << curr->commitID;
-    return curr->commitID + " "; //should return the commitID of the commited DLL node
+    if(modified){
+        cout << "Commit successful: ";
+        cout << curr->commitID;
+    }
+    else{
+        cout << "Commit successful. No file has been modified. Commit ID: " << curr->commitID;
+    }
+    return curr->commitID + ""; //should return the commitID of the commited DLL node
 }
 
 FileNode* MiniGit::Duplicate(FileNode* list){

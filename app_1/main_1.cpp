@@ -122,7 +122,7 @@ int main(int argc, char* argv[]) {
                 commitMsg = "";
                 getline(cin, commitMsg);
             }
-            cout << endl << "commit successful: " << repo->commit(commitMsg) << endl;
+            cout << repo->commit(commitMsg) << endl;
             //repo->printDLL();
             repo->printSearchTable();
         }
@@ -137,6 +137,7 @@ int main(int argc, char* argv[]) {
             string key = "";
             getline(cin, key);
             repo->search(key);
+            cout << endl;
         }
 
     }

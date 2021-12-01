@@ -108,14 +108,14 @@ TEST_F(test_x, TestSearch){
     string commits[] = {"computer", "science", "fun", "difficult", "science"};
     int tabSize = 5;
     result = test_search(commits, len, tabSize, "fun");
-    expected = "0|| science(1,4,)\n1|| \n2|| \n3|| \n4|| difficult(3,)-->fun(2,)-->computer(0,)\nfun";
+    expected = "2,";
     ASSERT_EQ(expected, result);
     add_points_to_grade(6);
 
 	string* commits2 = NULL;
     tabSize = 5;
     result = test_search(commits2, len, tabSize, "lmao");
-    expected = "0|| \n1|| \n2|| \n3|| \n4|| \n";
+    expected = "";
     ASSERT_EQ(expected, result);
     add_points_to_grade(6);
 
@@ -123,7 +123,7 @@ TEST_F(test_x, TestSearch){
     tabSize = 5;
 	len = 13;
     result = test_search(commits3, len, tabSize, "fixed");
-    expected = "0|| science(9,12,)\n1|| \n2|| \n3|| fixed(6,8,)-->bug(5,)-->tests(3,)-->bug(2,)-->tests(0,)\n4|| difficult(11,)-->fun(10,)-->error(7,)-->fun(4,)-->computer(1,)\nfixed";
+    expected = "6,8,";
     ASSERT_EQ(expected, result);
     add_points_to_grade(6);
 }
