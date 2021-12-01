@@ -17,19 +17,19 @@ MiniGit::MiniGit() {
 //ELIJAH
 MiniGit::~MiniGit() {   
     // Any postprocessing that may be required
-    // BranchNode* crawler = commitHead;
-    // while(crawler != NULL){
-    //     FileNode* node = crawler->fileHead;
-    //     while(node != NULL){
-    //         FileNode* temp = node;
-    //         node = node->next;
-    //         delete temp;
-    //     }
-    //     BranchNode* tempCrawl = crawler;
-    //     crawler = crawler->next;
-    //     delete tempCrawl;
-    // }
-    // fs::remove_all(".minigit");
+    BranchNode* crawler = commitHead;
+    while(crawler != NULL){
+        FileNode* node = crawler->fileHead;
+        while(node != NULL){
+            FileNode* temp = node;
+            node = node->next;
+            delete temp;
+        }
+        BranchNode* tempCrawl = crawler;
+        crawler = crawler->next;
+        delete tempCrawl;
+    }
+    fs::remove_all(".minigit");
 }
 
 //ELIJAH
@@ -59,7 +59,7 @@ void MiniGit::add(string fileName) {
         crawler->fileHead = newNode;
     } else {
         while(lastFile->next != NULL){
-            pos = lastFile->name.find("_");
+            pos = lastFile->name.find(".");
             string lFileName = lastFile->name.substr(0,pos) + ".txt";
             if(lFileName == fileName){
                 lastFile->version++;
@@ -68,7 +68,7 @@ void MiniGit::add(string fileName) {
             }
             lastFile = lastFile->next;
         }
-        pos = lastFile->name.find("_");
+        pos = lastFile->name.find(".");
         string lFileName = lastFile->name.substr(0,pos) + ".txt";
         if(lFileName == fileName){
             lastFile->version++;
@@ -181,10 +181,10 @@ string MiniGit::commit(string msg) {
         int pos = file->name.find(".");
         string fileName = "";
         if(file->version>10){
-            fileName = file->name.substr(0,pos) + "_" + to_string(file->version) + ".txt";
+            fileName = file->name.substr(0,pos) + "_" + to_string(file->version-1) + ".txt";
         }
         else{
-            fileName =file->name.substr(0,pos) + "_0" + to_string(file->version) + ".txt";
+            fileName =file->name.substr(0,pos) + "_0" + to_string(file->version-1) + ".txt";
         }
         if(fs::exists(fileName)){
             found = true;
@@ -194,32 +194,71 @@ string MiniGit::commit(string msg) {
             int pos = file->name.find(".");
             string gitFile = "";
             if(file->version>10){
-                gitFile = ".minigit/" + file->name.substr(0,pos) + "_" + to_string(file->version) + ".txt";
+                gitFile = ".minigit/" + file->name.substr(0,pos) + "_" + to_string(file->version-1) + ".txt";
             }
             else{
-                gitFile = ".minigit/" + file->name.substr(0,pos) + "_0" + to_string(file->version) + ".txt";
+                gitFile = ".minigit/" + file->name.substr(0,pos) + "_0" + to_string(file->version-1) + ".txt";
             }
-            cout << gitFile << endl;
-            if(fs::path(file->name).compare(fs::path(gitFile)) != 0){
-                cout << file->name << endl;
+            bool same = true;
+            ifstream f1 (file->name);
+            ifstream f2 (gitFile);
+            string line1;
+            string line2;
+            int count1 = 0;
+            int count2 = 0;
+            while(getline(f1,line1)){
+                count1++;
+            }
+            while(getline(f2,line2)){
+                count2++;
+            }
+            if(count1 != count2){
+                same = false;
+            }
+            f1.close();
+            f2.close();
+            ifstream f3 (file->name);
+            ifstream f4 (gitFile);
+            if(same){
+                while(getline(f4,line2)){
+                    getline(f3, line1);
+                    if(line2 != line1){
+                        same = false;
+                        break;
+                    }
+                }
+            }
+            if(!same){
                 int pos = file->name.find(".");
                 string title = file->name.substr(0,pos);
                 string newFileName = "";
-                if(file->version+1<10){
-                    newFileName = title + "_0" + to_string(file->version+1) + ".txt";
+                if(file->version<10){
+                    newFileName = title + "_0" + to_string(file->version) + ".txt";
                 }
                 else{
-                    newFileName = title + "_" + to_string(file->version+1) + ".txt";
+                    newFileName = title + "_" + to_string(file->version) + ".txt";
                 }
                 ifstream src (file->name);
                 ofstream dest(".minigit/" + newFileName);
                 string line;
+                int lineCount = 0;
+                int curr = 0;
                 while(getline(src, line)){
-                    dest << line << endl; 
+                    lineCount++;
+                }
+                src.close();
+                ifstream src1 (file->name);
+                while(getline(src1, line)){
+                    if(curr<lineCount-1){
+                        dest << line << endl;
+                    }
+                    else{
+                        dest << line;
+                    }
+                    curr++;
                 }
                 src.close();
                 dest.close();
-                file->version = file->version+1;
             }
         }
         else{
@@ -227,12 +266,26 @@ string MiniGit::commit(string msg) {
             string newFileName = file->name.substr(0,pos) + "_00.txt";
             ifstream src (file->name);
             ofstream dest(".minigit/" + newFileName);
+            int lineCount = 0;
+            int curr = 0;
             string line;
             while(getline(src, line)){
-                dest << line << endl; 
+                lineCount++;
             }
             src.close();
+            ifstream src1 (file->name);
+            while(getline(src1, line)){
+                if(curr<lineCount-1){
+                    dest << line << endl;
+                }
+                else{
+                    dest << line;
+                }
+                curr++;
+            }
+            src1.close();
             dest.close();
+            
         }
         file = file->next;
     }
