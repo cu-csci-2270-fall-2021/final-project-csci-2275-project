@@ -30,6 +30,7 @@ MiniGit::~MiniGit() {
         delete tempCrawl;
     }
     fs::remove_all(".minigit");
+    fs::remove(".minigit");
 }
 
 //ELIJAH
@@ -159,6 +160,17 @@ void MiniGit::printDLL(){
     }
 }
 
+bool MiniGit::searchForCommitMSG(string msg){
+    BranchNode* temp = commitHead;
+    while(temp != NULL){
+        if(temp->commitMessage == msg){
+            return true;
+        }
+        temp = temp->next;
+    }
+    return false;
+}
+
 //KIERAN
 string MiniGit::commit(string msg) {
     BranchNode* curr = commitHead;
@@ -169,14 +181,6 @@ string MiniGit::commit(string msg) {
     FileNode* file = curr->fileHead;
     while(file != NULL){
         bool found = false;
-        // for (const auto & entry : fs::directory_iterator(path)){
-        //     string entryPath = entry.path();
-        //     int pos = entryPath.find("_");
-        //     string minigitFile = entryPath.substr(0,pos) + ".txt";
-        //     if(minigitFile == file->name){
-        //         found = true;
-        //     }
-        // }
         fs::current_path(fs::path(".minigit"));
         int pos = file->name.find(".");
         string fileName = "";
@@ -289,12 +293,19 @@ string MiniGit::commit(string msg) {
         }
         file = file->next;
     }
-    
-    for(int i = 0; i<(int)(msg.size()); i++){
-        if(msg.at(i) == ' ' && i != 0){
-            ht->insertItem(msg.substr(0,i-1), curr->commitID);
+    string word = "";
+    for (auto x : msg) 
+    {
+        if (x == ' ')
+        {
+            ht->insertItem(word, curr->commitID);
+            word = "";
+        }
+        else {
+            word = word + x;
         }
     }
+    ht->insertItem(word, curr->commitID);
     BranchNode * newN = new BranchNode();
     newN->commitID = curr->commitID+1;
     newN->commitMessage = "";
@@ -303,6 +314,7 @@ string MiniGit::commit(string msg) {
     curr->next = newN;
     newN->fileHead = Duplicate(curr->fileHead);
     commits++;
+    cout << curr->commitID;
     return curr->commitID + " "; //should return the commitID of the commited DLL node
 }
 

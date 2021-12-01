@@ -21,17 +21,29 @@ void displayMenu()
     cout << "#> ";
 }
 int main(int argc, char* argv[]) {
-    string s = "error";
-    int sum = 0;
-    for(int i = 0; i<(int)(s.length()); i++){
-        sum += s[i];
-    }
-    cout << sum%7 << endl;
-    string input = "";
     MiniGit* repo = new MiniGit();
+    // repo->init(5);
+    // cout << "adding f0" << endl;
+    // repo->add("f0.txt");
+    // repo->printDLL();
+    // cout << "adding f1" << endl;
+    // repo->add("f1.txt");
+    // repo->printDLL();
+    // cout << "Commiting" << endl;
+    // repo->commit("one");
+    // repo->printDLL();
+    // cout << "adding f0" << endl;
+    // repo->add("f0.txt");
+    // repo->printDLL();
+    // cout << "adding f1" << endl;
+    // repo->add("f1.txt");
+    // repo->printDLL();
+    // cout << "Commiting" << endl;
+    // repo->commit("two");
+    string input = "";
     while(input != "7"){
         displayMenu();
-        cin >> input;
+        getline(cin, input);
         if(input == "1"){
             repo->init(5);
         }
@@ -39,12 +51,12 @@ int main(int argc, char* argv[]) {
             int count = 0;
             cout << "Enter the filename to be added: ";
             string filename = "";
-            cin >> filename;
+            getline(cin, filename);
             bool found = false;
             while(!found){
                 if(count != 0){
                     cout << "File not in current directory, try again: ";
-                    cin >> filename;
+                    getline(cin, filename);
                 }
                 count++;
                 string path = fs::current_path();
@@ -57,18 +69,18 @@ int main(int argc, char* argv[]) {
                 }
             }
             repo->add(filename);
-            repo->printLastSLL();
+            //repo->printLastSLL();
         }
         if(input == "3"){
             int count = 0;
             cout << "Enter the filename to be removed: ";
             string filename = "";
-            cin >> filename;
+            getline(cin, filename);
             bool found = false;
             while(!found){
                 if(count != 0){
                     cout << "File not in current directory, try again: ";
-                    cin >> filename;
+                    getline(cin, filename);
                 }
                 count++;
                 string path = fs::current_path();
@@ -81,12 +93,12 @@ int main(int argc, char* argv[]) {
                 }
             }
             repo->rm(filename);
-            repo->printLastSLL();
+            //repo->printLastSLL();
         }
         if(input == "4"){
             cout << "Enter unique commit message (at most 3 space separated words): ";
             string commitMsg = "";
-            cin >> commitMsg;
+            getline(cin, commitMsg);
             int space = 0;
             for(int i = 0; i<(int)(commitMsg.length()); i++){
                 if(commitMsg.at(i) == ' '){
@@ -97,7 +109,7 @@ int main(int argc, char* argv[]) {
                 cout << "commit message should be at most 3 words long" << endl;
                 cout << "Enter unique commit message (at most 3 space separated words): ";
                 commitMsg = "";
-                cin >> commitMsg;
+                getline(cin, commitMsg);
                 space = 0;
                 for(int i = 0; i<(int)(commitMsg.length()); i++){
                     if(commitMsg.at(i) == ' '){
@@ -105,19 +117,25 @@ int main(int argc, char* argv[]) {
                     }
                 }
             }
-            cout << commitMsg << endl << "commit successful: " << repo->commit(commitMsg) << endl;
+            while(repo->searchForCommitMSG(commitMsg)){
+                cout << "That is a duplicate commit message. Try again: ";
+                commitMsg = "";
+                getline(cin, commitMsg);
+            }
+            cout << endl << "commit successful: " << repo->commit(commitMsg) << endl;
+            //repo->printDLL();
             repo->printSearchTable();
         }
         if(input == "5"){
             cout << "Enter the commit number: ";
             string commitNum = "";
-            cin >> commitNum;
+            getline(cin, commitNum);
             repo->checkout(commitNum);
         }
         if(input == "6"){
             cout << "Enter the search key: ";
             string key = "";
-            cin >> key;
+            getline(cin, key);
             repo->search(key);
         }
 

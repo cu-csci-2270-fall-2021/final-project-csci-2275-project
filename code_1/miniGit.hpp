@@ -45,5 +45,5 @@ public:
     void checkout(string commitID);
     void printSearchTable();
     FileNode* Duplicate(FileNode* list);
-    
+    bool searchForCommitMSG(string msg);
 };
