@@ -119,7 +119,12 @@ void MiniGit::printSearchTable()
 //KIERAN
 void MiniGit::search(string key)
 {
-    vector<int> arr = ht->searchItem(key)->commitNums;
+    HashNode* searchNode = ht->searchItem(key);
+    if(searchNode == NULL){
+        cout << "key not found" << endl;
+        return;
+    }
+    vector<int> arr = searchNode->commitNums;
     BranchNode* temp = commitHead;
     cout << "Commit numbers for " << key << ": ";
     for(int i = 0; i<(int)(arr.size()); i++){
