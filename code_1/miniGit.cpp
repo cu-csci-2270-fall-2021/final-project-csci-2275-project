@@ -31,7 +31,6 @@ MiniGit::~MiniGit() {
     }
     delete ht;
     fs::remove_all(".minigit");
-    fs::remove(".minigit");
 }
 
 //ELIJAH
