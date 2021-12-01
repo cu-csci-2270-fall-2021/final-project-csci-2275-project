@@ -129,6 +129,7 @@ void MiniGit::search(string key)
     for(int i = 0; i<(int)(arr.size()); i++){
         cout << arr[i] << ",";
     }
+    cout << endl;
 }
 
 //JUST FOR TESTING
