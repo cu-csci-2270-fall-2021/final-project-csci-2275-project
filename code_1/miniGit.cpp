@@ -52,7 +52,7 @@ void MiniGit::add(string fileName) {
     FileNode* lastFile = crawler->fileHead;
     FileNode* newNode = new FileNode;
     int pos = fileName.find(".");
-    newNode->name = fileName.substr(0, pos) + ".txt";
+    newNode->name = fileName.substr(0, pos) + "." + (fileName.substr(pos+1));
     newNode->version = 0;
     newNode->next = NULL;
     if(lastFile == NULL){
@@ -60,7 +60,7 @@ void MiniGit::add(string fileName) {
     } else {
         while(lastFile->next != NULL){
             pos = lastFile->name.find(".");
-            string lFileName = lastFile->name.substr(0,pos) + ".txt";
+            string lFileName = lastFile->name.substr(0,pos) + "." + lastFile->name.substr(pos+1);
             if(lFileName == fileName){
                 lastFile->version++;
                 cout << "File has already been added. Version number updated" << endl;
@@ -69,7 +69,7 @@ void MiniGit::add(string fileName) {
             lastFile = lastFile->next;
         }
         pos = lastFile->name.find(".");
-        string lFileName = lastFile->name.substr(0,pos) + ".txt";
+        string lFileName = lastFile->name.substr(0,pos) + "." + lastFile->name.substr(pos+1);
         if(lFileName == fileName){
             lastFile->version++;
             cout << "File has already been added. Version number updated" << endl;
@@ -88,7 +88,7 @@ void MiniGit::rm(string fileName) {
     FileNode* temp = dll->fileHead;
     FileNode* prev = NULL;
     int pos = temp->name.find(".");
-    string tName = temp->name.substr(0,pos) + ".txt";
+    string tName = temp->name.substr(0,pos) + "." + temp->name.substr(pos+1);
     if (temp != NULL && tName == fileName){
         dll->fileHead = temp->next; 
         delete temp;            
@@ -99,7 +99,7 @@ void MiniGit::rm(string fileName) {
             prev = temp;
             temp = temp->next;
             pos = temp->name.find(".");
-            tName = temp->name.substr(0,pos) + ".txt";
+            tName = temp->name.substr(0,pos) + "." + temp->name.substr(pos+1);
         }
         if (temp == NULL){
             return;
@@ -190,10 +190,10 @@ string MiniGit::commit(string msg) {
         int pos = file->name.find(".");
         string fileName = "";
         if(file->version>10){
-            fileName = file->name.substr(0,pos) + "_" + to_string(file->version-1) + ".txt";
+            fileName = file->name.substr(0,pos) + "_" + to_string(file->version-1) + "." + file->name.substr(pos+1);
         }
         else{
-            fileName =file->name.substr(0,pos) + "_0" + to_string(file->version-1) + ".txt";
+            fileName =file->name.substr(0,pos) + "_0" + to_string(file->version-1) + "." + file->name.substr(pos+1);
         }
         if(fs::exists(fileName)){
             found = true;
@@ -203,10 +203,10 @@ string MiniGit::commit(string msg) {
             int pos = file->name.find(".");
             string gitFile = "";
             if(file->version>10){
-                gitFile = ".minigit/" + file->name.substr(0,pos) + "_" + to_string(file->version-1) + ".txt";
+                gitFile = ".minigit/" + file->name.substr(0,pos) + "_" + to_string(file->version-1) + "." + file->name.substr(pos+1);
             }
             else{
-                gitFile = ".minigit/" + file->name.substr(0,pos) + "_0" + to_string(file->version-1) + ".txt";
+                gitFile = ".minigit/" + file->name.substr(0,pos) + "_0" + to_string(file->version-1) + "." + file->name.substr(pos+1);
             }
             bool same = true;
             ifstream f1 (file->name);
@@ -242,10 +242,10 @@ string MiniGit::commit(string msg) {
                 string title = file->name.substr(0,pos);
                 string newFileName = "";
                 if(file->version<10){
-                    newFileName = title + "_0" + to_string(file->version) + ".txt";
+                    newFileName = title + "_0" + to_string(file->version) + "." + file->name.substr(pos+1);
                 }
                 else{
-                    newFileName = title + "_" + to_string(file->version) + ".txt";
+                    newFileName = title + "_" + to_string(file->version) + "." + file->name.substr(pos+1);
                 }
                 modified = true;
                 ifstream src (file->name);
@@ -274,7 +274,7 @@ string MiniGit::commit(string msg) {
         else{
             int pos = file->name.find(".");
             modified = true;
-            string newFileName = file->name.substr(0,pos) + "_00.txt";
+            string newFileName = file->name.substr(0,pos) + "_00." + file->name.substr(pos+1);
             ifstream src (file->name);
             ofstream dest(".minigit/" + newFileName);
             int lineCount = 0;
@@ -351,10 +351,10 @@ void MiniGit::checkout(string commitID) {
                 int pos = node->name.find(".");
                 string title = node->name.substr(0,pos);
                 if(node->version+1<10){
-                    fileVersionName = title + "_0" + to_string(node->version) + ".txt";
+                    fileVersionName = title + "_0" + to_string(node->version) + "." + node->name.substr(pos+1);
                 }
                 else{
-                    fileVersionName = title + "_" + to_string(node->version) + ".txt";
+                    fileVersionName = title + "_" + to_string(node->version) + "." + node->name.substr(pos+1);
                 }
                 // string fileLoc = ".minigit/" + fileVersionName;
                 // string fileDest =  node->name;
