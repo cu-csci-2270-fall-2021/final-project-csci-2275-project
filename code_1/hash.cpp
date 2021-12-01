@@ -38,20 +38,15 @@ unsigned int HashTable::hashFunction(string s)
 HashNode* HashTable::searchItem(string key)
 {
    HashNode* temp = table[hashFunction(key)];
+   if(temp == NULL){
+       return temp;
+   }
    while(temp->key != key && temp != NULL){
        temp = temp->next;
    }
    return temp;
 }
 
-
-void insertLL(HashNode* node, HashNode* newNode){
-    HashNode* crawler = node;
-    while(crawler->next != NULL){
-        crawler = crawler->next;
-    }
-    crawler->next = newNode;
-}
 //ELIJAH
 //TODO Complete this function
 //function to insert
