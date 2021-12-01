@@ -29,6 +29,7 @@ MiniGit::~MiniGit() {
         crawler = crawler->next;
         delete tempCrawl;
     }
+    delete ht;
     fs::remove_all(".minigit");
     fs::remove(".minigit");
 }

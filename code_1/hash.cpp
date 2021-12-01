@@ -5,6 +5,21 @@
 
 using namespace std;
 
+
+HashTable::~HashTable(){
+    for(int i=0; i<tableSize; i++){
+        if(table[i] != NULL){
+            HashNode* crawler = table[i];
+            while(crawler != NULL){
+                HashNode* temp = crawler;
+                crawler = crawler->next;
+                delete temp;
+            }
+        }
+    }
+    delete table;
+}
+
 HashNode* HashTable::createNode(string key, HashNode* next)
 {
     HashNode* nw = NULL;
