@@ -271,7 +271,7 @@ string MiniGit::commit(string msg) {
                 }
                 src.close();
                 dest.close();
-            }
+            } else file->version--;
         }
         else{
             int pos = file->name.find(".");
