@@ -271,9 +271,18 @@ void MiniGit::checkout(string commitID) {
        if(crawler->commitID == stoi(commitID)){
            FileNode* node = crawler->fileHead;
            while(node != NULL){
-               string fileLoc = ".minigit" + node->version;
-               string fileDest = "test" + node->name;
-               fs::copy_file(fileLoc, fileDest);
+                string fileVersionName;
+                int pos = node->name.find(".");
+                string title = node->name.substr(0,pos);
+                if(node->version+1<10){
+                    fileVersionName = title + "_0" + to_string(node->version) + ".txt";
+                }
+                else{
+                    fileVersionName = title + "_" + to_string(node->version) + ".txt";
+                }
+               string fileLoc = ".minigit/" + fileVersionName;
+               string fileDest =  node->name;
+               fs::copy(fileLoc, fileDest, fs::copy_options::overwrite_existing);
                node = node->next;
            }
            return;
