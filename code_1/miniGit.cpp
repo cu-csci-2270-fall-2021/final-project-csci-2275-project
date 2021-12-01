@@ -62,7 +62,7 @@ void MiniGit::add(string fileName) {
             pos = lastFile->name.find(".");
             string lFileName = lastFile->name.substr(0,pos) + "." + lastFile->name.substr(pos+1);
             if(lFileName == fileName){
-                lastFile->version++;
+                //lastFile->version++;
                 cout << "File has already been added. Version number updated" << endl;
                 goto label;
             }
@@ -71,7 +71,7 @@ void MiniGit::add(string fileName) {
         pos = lastFile->name.find(".");
         string lFileName = lastFile->name.substr(0,pos) + "." + lastFile->name.substr(pos+1);
         if(lFileName == fileName){
-            lastFile->version++;
+            //lastFile->version++;
             cout << "File has already been added. Version number updated" << endl;
         } else lastFile->next = newNode;
     }
@@ -238,6 +238,8 @@ string MiniGit::commit(string msg) {
                 }
             }
             if(!same){
+                file->version++;
+                cout << "version number updated" << endl;
                 int pos = file->name.find(".");
                 string title = file->name.substr(0,pos);
                 string newFileName = "";
@@ -269,7 +271,7 @@ string MiniGit::commit(string msg) {
                 }
                 src.close();
                 dest.close();
-            } else file->version--;
+            }
         }
         else{
             int pos = file->name.find(".");

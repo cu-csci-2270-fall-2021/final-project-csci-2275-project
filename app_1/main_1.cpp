@@ -22,6 +22,7 @@ void displayMenu()
 }
 int main(int argc, char* argv[]) {
     MiniGit* repo = new MiniGit();
+    bool initialized = false;
     // repo->init(5);
     // cout << "adding f0" << endl;
     // repo->add("f0.txt");
@@ -46,8 +47,10 @@ int main(int argc, char* argv[]) {
         getline(cin, input);
         if(input == "1"){
             repo->init(5);
+            initialized = true;
         }
         if(input == "2"){
+            if(initialized){
             int count = 0;
             cout << "Enter the filename to be added: ";
             string filename = "";
@@ -70,8 +73,10 @@ int main(int argc, char* argv[]) {
             }
             repo->add(filename);
             //repo->printLastSLL();
+            } else cout << "initialize repo first!" << endl;
         }
         if(input == "3"){
+            if(initialized){
             int count = 0;
             cout << "Enter the filename to be removed: ";
             string filename = "";
@@ -94,8 +99,10 @@ int main(int argc, char* argv[]) {
             }
             repo->rm(filename);
             //repo->printLastSLL();
+            } else cout << "initialize repo first!" << endl;
         }
         if(input == "4"){
+            if(initialized){
             cout << "Enter unique commit message (at most 3 space separated words): ";
             string commitMsg = "";
             getline(cin, commitMsg);
@@ -125,8 +132,10 @@ int main(int argc, char* argv[]) {
             cout << repo->commit(commitMsg) << endl;
             //repo->printDLL();
             repo->printSearchTable();
+            } else cout << "initialize repo first!" << endl;
         }
         if(input == "5"){
+            if(initialized){
             cout << "Enter the commit number: ";
             string commitNum = "";
             getline(cin, commitNum);
@@ -136,13 +145,16 @@ int main(int argc, char* argv[]) {
             if(confirm == "Y" || confirm == "y"){
                 repo->checkout(commitNum);
             }
+            } else cout << "initialize repo first!" << endl;
         }
         if(input == "6"){
+            if(initialized){
             cout << "Enter the search key: ";
             string key = "";
             getline(cin, key);
             repo->search(key);
             cout << endl;
+            } else cout << "initialize repo first!" << endl;
         }
 
     }
