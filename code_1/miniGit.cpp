@@ -10,7 +10,6 @@ namespace fs = std::filesystem;
 #include <vector>
 
 MiniGit::MiniGit() {
-    fs::remove_all(".minigit");
     fs::create_directory(".minigit");
 }
 
