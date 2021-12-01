@@ -56,9 +56,16 @@ HashNode* HashTable::searchItem(string key)
 bool HashTable::insertItem(string key, int cNum)
 {   
     int index = hashFunction(key);
-    if(table[index] != NULL && table[index]->key == key){
-        table[index]->commitNums.push_back(cNum);
-        return true;
+    if(table[index] != NULL){
+        HashNode* crawler = table[index];
+        while(crawler != NULL){
+            if(crawler->key == key){
+                crawler->commitNums.push_back(cNum);
+                return true;
+            }
+            crawler = crawler->next;
+        }
+        
     }
     HashNode *newNode = new HashNode;
     newNode->next = NULL;

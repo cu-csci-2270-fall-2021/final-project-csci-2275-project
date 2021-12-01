@@ -128,8 +128,9 @@ void MiniGit::search(string key)
     BranchNode* temp = commitHead;
     cout << "Commit numbers for " << key << ": ";
     for(int i = 0; i<(int)(arr.size()); i++){
-        cout << temp->commitID << ",";
+        cout << arr[i] << ",";
     }
+    cout << endl;
 }
 
 //JUST FOR TESTING
