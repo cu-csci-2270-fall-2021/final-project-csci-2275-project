@@ -55,24 +55,6 @@ HashNode* HashTable::searchItem(string key)
 
 bool HashTable::insertItem(string key, int cNum)
 {   
-    // int index = hashFunction(key);
-    // if(table[index] != NULL && table[index]->key == key){
-    //     table[index]->commitNums.push_back(cNum);
-    //     return true;
-    // }
-    // HashNode *newNode = new HashNode;
-    // newNode->next = NULL;
-    // newNode->key = key;
-    // newNode->commitNums.push_back(cNum);
-    // if(table[index] == NULL){
-    //     table[index] = newNode;
-    //     return true;
-    // } else {
-    //     newNode->next = table[index];
-    //     table[index] = newNode;
-    //     return true;
-    // }
-    // return false;
     int index = hashFunction(key);
     HashNode* temp = table[index];
     if(temp == NULL){

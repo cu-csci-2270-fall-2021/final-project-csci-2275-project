@@ -302,10 +302,8 @@ string MiniGit::commit(string msg) {
         file = file->next;
     }
     string word = "";
-    for (auto x : msg) 
-    {
-        if (x == ' ')
-        {
+    for (auto x : msg) {
+        if (x == ' ') {
             ht->insertItem(word, curr->commitID);
             word = "";
         }
@@ -359,10 +357,31 @@ void MiniGit::checkout(string commitID) {
                 else{
                     fileVersionName = title + "_" + to_string(node->version) + ".txt";
                 }
-               string fileLoc = ".minigit/" + fileVersionName;
-               string fileDest =  node->name;
-               fs::copy(fileLoc, fileDest, fs::copy_options::overwrite_existing);
-               node = node->next;
+                // string fileLoc = ".minigit/" + fileVersionName;
+                // string fileDest =  node->name;
+                // fs::copy(fileLoc, fileDest, fs::copy_options::overwrite_existing);
+                ifstream src (".minigit/" + fileVersionName);
+                ofstream dest(node->name);
+                int lineCount = 0;
+                int curr = 0;
+                string line;
+                while(getline(src, line)){
+                    lineCount++;
+                }
+                src.close();
+                ifstream src1 (".minigit/" + fileVersionName);
+                while(getline(src1, line)){
+                    if(curr<lineCount-1){
+                        dest << line << endl;
+                    }
+                    else{
+                        dest << line;
+                    }
+                    curr++;
+                }
+                src1.close();
+                dest.close();
+                node = node->next;
            }
            return;
        }

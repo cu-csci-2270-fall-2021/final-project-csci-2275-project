@@ -130,7 +130,12 @@ int main(int argc, char* argv[]) {
             cout << "Enter the commit number: ";
             string commitNum = "";
             getline(cin, commitNum);
-            repo->checkout(commitNum);
+            cout << "Are you sure you want to do this? Warning, you will lose all local changes. Y or N?";
+            string confirm = "";
+            getline(cin, confirm);
+            if(confirm == "Y" || confirm == "y"){
+                repo->checkout(commitNum);
+            }
         }
         if(input == "6"){
             cout << "Enter the search key: ";
