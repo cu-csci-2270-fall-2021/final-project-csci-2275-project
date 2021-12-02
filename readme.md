@@ -34,4 +34,19 @@ Copies files of the correct version number for whichever commit is selected over
 
    Finds all commit numbers from commits who's message contains the specified word. Only 1 word may be used to search.
 Searches the hash table and returns a list of commit numbers
+
+## Hash Function
+
+Takes a string as input and adds all ASCII values of the characters together, then runs a modulo operation with the table size to return an index in the table.
+
+## Hash Table Insert
+
+Inserts the specified string into the hash table at the index specified by the hash function.
+If another values exists at that index, it creates a new node in the SLL of entries
+Also records what commit number the string is associated with, and if a string has already been added, it adds the new commit number to that strings data.
+
+## Hash Table Search
+
+Searches the hash table at the index given by the hash function for the string inputted.
+If the string is found in the table, all commit numbers associated with it are returned.
   
