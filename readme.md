@@ -6,7 +6,7 @@ Please include a thorough description of your program's functionality. Imagine t
 
   Used to set up the reposotory when first running the program. Allows a choice of hash table size. 
   
-  **``*``** **Must be run first** **``*``**
+  **\*** **Must be run first** **\***
   
 ## Add
 
