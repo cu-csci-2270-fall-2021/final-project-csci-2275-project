@@ -23,24 +23,7 @@ void displayMenu()
 int main(int argc, char* argv[]) {
     MiniGit* repo = new MiniGit();
     bool initialized = false;
-    // repo->init(5);
-    // cout << "adding f0" << endl;
-    // repo->add("f0.txt");
-    // repo->printDLL();
-    // cout << "adding f1" << endl;
-    // repo->add("f1.txt");
-    // repo->printDLL();
-    // cout << "Commiting" << endl;
-    // repo->commit("one");
-    // repo->printDLL();
-    // cout << "adding f0" << endl;
-    // repo->add("f0.txt");
-    // repo->printDLL();
-    // cout << "adding f1" << endl;
-    // repo->add("f1.txt");
-    // repo->printDLL();
-    // cout << "Commiting" << endl;
-    // repo->commit("two");
+
     string input = "";
     while(input != "7"){
         displayMenu();
