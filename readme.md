@@ -6,7 +6,7 @@ Please include a thorough description of your program's functionality. Imagine t
 
   Used to set up the reposotory when first running the program. Allows a choice of hash table size. 
   
-  **Must be run first**
+  ***Must be run first***
   
 ## Add
 
@@ -24,7 +24,7 @@ Please include a thorough description of your program's functionality. Imagine t
 
   Returns files to the version of the specified commit number. 
   
-  **Cannot be Reversed**
+  ***Cannot be Reversed***
   
 ## Search
 
