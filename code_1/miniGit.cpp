@@ -62,7 +62,6 @@ void MiniGit::add(string fileName) {
             pos = lastFile->name.find(".");
             string lFileName = lastFile->name.substr(0,pos) + "." + lastFile->name.substr(pos+1);
             if(lFileName == fileName){
-                //lastFile->version++;
                 cout << "File has already been added. Version number updated" << endl;
                 goto label;
             }
@@ -71,7 +70,6 @@ void MiniGit::add(string fileName) {
         pos = lastFile->name.find(".");
         string lFileName = lastFile->name.substr(0,pos) + "." + lastFile->name.substr(pos+1);
         if(lFileName == fileName){
-            //lastFile->version++;
             cout << "File has already been added. Version number updated" << endl;
         } else lastFile->next = newNode;
     }
@@ -129,39 +127,6 @@ void MiniGit::search(string key)
         cout << arr[i] << ",";
     }
     cout << endl;
-}
-
-//JUST FOR TESTING
-//REMOVE BEFORE FINAL COMMIT
-void MiniGit::printLastSLL(){
-    BranchNode* temp = commitHead;
-    while(temp->next != NULL){
-        temp = temp->next;
-    }
-    FileNode* SLL = temp->fileHead;
-    if(SLL == NULL){
-        cout << "NULL" << endl;
-    }
-    while(SLL != NULL){
-        cout << SLL->name << endl;
-        SLL = SLL->next;
-    }
-}
-
-//JUST FOR TESTING
-//REMOVE BEFORE FINAL COMMIT
-void MiniGit::printDLL(){
-    BranchNode* temp = commitHead;
-    while(temp != NULL){
-        cout << "CommitID: " << temp->commitID << " Commit msg: " << temp->commitMessage << " SLL: ";
-        FileNode* curr = temp->fileHead;
-        while(curr != NULL){
-            cout << curr->name << "-->";
-            curr = curr->next;
-        }
-        cout << endl;
-        temp = temp->next;
-    }
 }
 
 bool MiniGit::searchForCommitMSG(string msg){
@@ -358,9 +323,6 @@ void MiniGit::checkout(string commitID) {
                 else{
                     fileVersionName = title + "_" + to_string(node->version) + "." + node->name.substr(pos+1);
                 }
-                // string fileLoc = ".minigit/" + fileVersionName;
-                // string fileDest =  node->name;
-                // fs::copy(fileLoc, fileDest, fs::copy_options::overwrite_existing);
                 ifstream src (".minigit/" + fileVersionName);
                 ofstream dest(node->name);
                 int lineCount = 0;
