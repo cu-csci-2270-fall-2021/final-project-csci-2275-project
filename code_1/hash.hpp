@@ -30,6 +30,7 @@ public:
 
     // hash function to map values to key
     unsigned int hashFunction(string key);
+    ~HashTable();
 
     void printTable();
 

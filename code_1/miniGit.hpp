@@ -35,7 +35,8 @@ private:
 public:
     MiniGit();
     ~MiniGit();
-
+    void printLastSLL();
+    void printDLL();
     void init(int hashtablesize);
     void add(string fileName);
     void rm(string fileName);
@@ -43,6 +44,6 @@ public:
     string commit(string msg);
     void checkout(string commitID);
     void printSearchTable();
-    
-    
+    FileNode* Duplicate(FileNode* list);
+    bool searchForCommitMSG(string msg);
 };

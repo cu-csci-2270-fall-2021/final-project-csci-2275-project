@@ -43,3 +43,26 @@ string test_insert(string arr[], int len, int tabSize)
     string output = testing::internal::GetCapturedStdout();
     return output;
 }
+
+string test_search(string arr[], int len, int tabSize, string key)
+{
+    
+    testing::internal::CaptureStdout();
+    HashTable* ht = new HashTable(tabSize);
+    
+    if(arr != NULL){
+        for(int i=0;i<len;i++)
+        {
+            ht->insertItem(arr[i],i);
+        }
+    }
+    HashNode* searchItem = ht->searchItem(key);
+    //ht->printTable();
+    if(searchItem != NULL){
+        for(int i = 0; i<(int)(searchItem->commitNums.size()); i++){
+            cout << searchItem->commitNums[i] << ",";
+        }
+    }
+    string output = testing::internal::GetCapturedStdout();
+    return output;
+}

@@ -1,6 +1,7 @@
 # exclude everything
 build/*
 ipch
+.vscode/*
 
 # exception to the rule
 !build/.gitkeep 

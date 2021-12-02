@@ -5,6 +5,21 @@
 
 using namespace std;
 
+
+HashTable::~HashTable(){
+    for(int i=0; i<tableSize; i++){
+        if(table[i] != NULL){
+            HashNode* crawler = table[i];
+            while(crawler != NULL){
+                HashNode* temp = crawler;
+                crawler = crawler->next;
+                delete temp;
+            }
+        }
+    }
+    delete table;
+}
+
 HashNode* HashTable::createNode(string key, HashNode* next)
 {
     HashNode* nw = NULL;
@@ -13,33 +28,73 @@ HashNode* HashTable::createNode(string key, HashNode* next)
 
 HashTable::HashTable(int bsize)
 {
-   
+    tableSize = bsize;
+    table = new HashNode* [bsize];
+    for(int i = 0; i<bsize; i++){
+        table[i] = NULL;
+    }
 }
 
 //function to calculate hash function
 unsigned int HashTable::hashFunction(string s)
 {
-    
-    return 0;
+    int sum = 0;
+    int index = 0;
+    for(int i=0; i < (int)(s.length()); i++)
+    {
+        sum += s[i];
+    }
+    index = (int)(sum % tableSize);
+    return index;
 }
 
 // TODO Complete this function
 //function to search
 HashNode* HashTable::searchItem(string key)
 {
-   
-
-    //TODO
-    return NULL;
-    
+   HashNode* temp = table[hashFunction(key)];
+   if(temp == NULL){
+       return temp;
+   }
+   while(temp->key != key && temp != NULL){
+       temp = temp->next;
+   }
+   return temp;
 }
 
+//ELIJAH
 //TODO Complete this function
 //function to insert
+
+
+
 bool HashTable::insertItem(string key, int cNum)
-{
-    
-    //TODO
+{   
+    int index = hashFunction(key);
+    HashNode* temp = table[index];
+    if(temp == NULL){
+        temp = new HashNode;
+        temp->key = key;
+        temp->next = NULL;
+        temp->commitNums.push_back(cNum);
+        table[index] = temp;
+        return true;
+    }
+    else{
+        while(temp != NULL){
+            if(temp->key == key){
+                temp->commitNums.push_back(cNum);
+                return true;
+            }
+            temp = temp->next;
+        }
+        temp = new HashNode;
+        temp->key = key;
+        temp->next = table[index];
+        temp->commitNums.push_back(cNum);
+        table[index] = temp;
+        return true;
+    }
     return false;
 }
 
@@ -57,7 +112,28 @@ bool HashTable::insertItem(string key, int cNum)
 4|| difficult(3,)-->fun(2,)-->computer(0,)
 
 */
+
+//ELIJAH
 void HashTable::printTable()
 {
-
+    for (int i = 0; i < tableSize; i++) {
+        cout << i <<"|| ";
+        HashNode* temp = table[i];
+        while(temp){
+            cout << temp->key;
+            if(temp->commitNums.size()>0){
+                cout << "(";
+                for(int i = 0; i<(int)(temp->commitNums.size()); i++){
+                    cout << temp->commitNums[i] << ",";
+                }
+                cout << ")";
+            }
+            if(temp->next != NULL){
+                cout << "-->";
+            }
+            temp = temp->next;
+        }
+        cout << endl;
+    }
  }
+
