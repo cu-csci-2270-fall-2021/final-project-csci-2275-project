@@ -2,43 +2,31 @@
 
 Please include a thorough description of your program's functionality. Imagine that you are publishing this for users who know nothing about this project. **Also, include the names of the team-members/authors**. 
 
-## Init 
+## Initialization
 
-  first option on the menu, sets up the repo, and must be run before use
+  Used to set up the reposotory when first running the program. Allows a choice of hash table size. 
   
-  allows the user to choose a hash table size
+  **Must be run first**
   
 ## Add
 
-  - second menu option
-  
-  - adds a file to the current commit
+  Adds a file to the current commit. Files must be added one at a time.
   
 ## Remove
 
-  - thrid menu option
-  
-  - removes a file that has been added to the commit
-  
-  - only works before finalizing the commit
+ Removes the specified file from the current commit. 
   
 ## Commit
 
-  - forth menu option
-  
-  - finalizes a commit, saving all changes within the commit
-  
-  - allows for a commit message of up to 3 words 
+  Finalized the commit, saving the current version of all added files. A unique commit message must be specified, that may be up to 3 words long, and can be used to find the commit later.
   
 ## Checkout
 
-  - fifth menu option
+  Returns files to the version of the specified commit number. 
   
-  - allows user to restore files to the state they were in in a previous commit
+  **Cannot be Reversed**
   
 ## Search
 
-   - sixth menu option
-  
-  - allows users to input a word, and will return all commit numbers who's messages contain that word
+   Finds all commit numbers from commits who's message contains the specified word. Only 1 word may be used to search.
   
